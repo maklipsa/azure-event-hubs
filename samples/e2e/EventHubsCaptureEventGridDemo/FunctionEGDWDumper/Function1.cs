@@ -72,7 +72,7 @@ namespace FunctionEGDWDumper
             using (var dataTable = GetWindTurbineMetricsTable())
             {
                 // Parse the Avro File
-                Stream blobStream = await blob.OpenReadAsync(null);
+                Stream blobStream = await blob.OpenReadAsync();
                 using (var avroReader = DataFileReader<GenericRecord>.OpenReader(blobStream))
                 {
                     while (avroReader.HasNext())
