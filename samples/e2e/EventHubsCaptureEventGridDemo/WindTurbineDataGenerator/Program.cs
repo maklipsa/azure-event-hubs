@@ -8,40 +8,44 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Producer;
+using CommandLine;
 
 namespace WindTurbineDataGenerator
 {
     internal class Program
     {
-        private const string EventHubConnectionString =
-            "<EVENT HUBS NAMESPACE CONNECTION STRING>";
-
-        private const string EventHubName = "<EVENT HUB NAME>";
-        
         private static int Main(string[] args)
         {
-            Console.WriteLine("Starting wind turbine generator. Press <ENTER> to exit");
+            var options = Parser.Default.ParseArguments<CommandLineOptions>(args)
+                .WithParsed<CommandLineOptions>(options=>
+                {
 
-            // Start generation of events
-            var cts = new CancellationTokenSource();
+                    Console.WriteLine("Starting wind turbine generator. Press <ENTER> to exit");
 
-            var t0 = StartEventGenerationAsync(cts.Token);
+                    // Start generation of events
+                    var cts = new CancellationTokenSource();
 
-            Console.ReadLine();
-            cts.Cancel();
+                    var t0 = StartEventGenerationAsync(cts.Token, options.Connection, options.Name);
 
-            var t1 = Task.Delay(TimeSpan.FromSeconds(3));
-            Task.WhenAny(t0, t1).GetAwaiter().GetResult();
-           
+                    Console.ReadLine();
+                    cts.Cancel();
+
+                    var t1 = Task.Delay(TimeSpan.FromSeconds(3));
+                    Task.WhenAny(t0, t1).GetAwaiter().GetResult();
+
+                });           
             return 0;
         }
 
-        private static async Task StartEventGenerationAsync(CancellationToken cancellationToken)
+        private static async Task StartEventGenerationAsync(CancellationToken cancellationToken,
+            string eventHubConnectionString, 
+            string eventHubName
+        )
         {
             var random = new Random((int)DateTimeOffset.UtcNow.Ticks);
 
             // create an Event Hubs Producer client using the namespace connection string and the event hub name
-            EventHubProducerClient producerClient = new EventHubProducerClient(EventHubConnectionString, EventHubName);
+            EventHubProducerClient producerClient = new EventHubProducerClient(eventHubConnectionString, eventHubName);
 
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -67,8 +71,7 @@ namespace WindTurbineDataGenerator
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("Error generating turbine data. Exception: {0}", ex);
-                    Console.Write("E");
+                    throw ex;
                 }
 
                 await Task.Delay(1000, cancellationToken);
