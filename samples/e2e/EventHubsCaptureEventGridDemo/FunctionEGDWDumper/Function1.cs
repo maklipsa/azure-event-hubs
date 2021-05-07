@@ -56,6 +56,7 @@ namespace FunctionEGDWDumper
                 string s = string.Format(CultureInfo.InvariantCulture,
                     "Error processing request. Exception: {0}, Request: {1}", e, eventGridEvent.ToString());
                 log.Error(s);
+                throw e;
             }
         }
 
