@@ -1,7 +1,15 @@
 {
-    "IsEncrypted": false,
-    "Values": {
-        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet"
-    }
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=whstorage20098;AccountKey=9tZZTeB19pChf5Geek5aBRGtqmXBikWNdwG2PRl0favhNPMZgYV3gUxnkW87/p/DI47E1knggpJm0oC3jCQPag==",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "AzureWebJobsDashboard": "DefaultEndpointsProtocol=https;AccountName=whstorage20098;AccountKey=9tZZTeB19pChf5Geek5aBRGtqmXBikWNdwG2PRl0favhNPMZgYV3gUxnkW87/p/DI47E1knggpJm0oC3jCQPag==",
+    "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "DefaultEndpointsProtocol=https;AccountName=whstorage20098;AccountKey=9tZZTeB19pChf5Geek5aBRGtqmXBikWNdwG2PRl0favhNPMZgYV3gUxnkW87/p/DI47E1knggpJm0oC3jCQPag==",
+    "WEBSITE_CONTENTSHARE": "wh-func",
+    "StorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=whstorage20098;AccountKey=9tZZTeB19pChf5Geek5aBRGtqmXBikWNdwG2PRl0favhNPMZgYV3gUxnkW87/p/DI47E1knggpJm0oC3jCQPag==",
+    "SqlDwConnection": "Server=tcp:wh-sqlserver-21280.database.windows.net,1433;Database=wh-db;Trusted_Connection=False;User ID=user@wh-sqlserver-21280;Password=25676-wertkldkz;Connection Timeout=30;Encrypt=True",
+    "FUNCTIONS_EXTENSION_VERSION": "~1",
+    "WEBSITE_NODE_DEFAULT_VERSION": "6.5.0"
+  },
+  "ConnectionStrings": {}
 }

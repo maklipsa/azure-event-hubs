@@ -35,7 +35,7 @@ namespace FunctionEGDWDumper
         private const string TableName = "dbo.Fact_WindTurbineMetrics";
 
         [FunctionName("EventGridTriggerMigrateData")]
-        public static void Run([EventGridTrigger]JObject eventGridEvent, TraceWriter log)
+        public static async Task Run([EventGridTrigger]JObject eventGridEvent, TraceWriter log)
         {
             log.Info("C# EventGrid trigger function processed a request.");
             log.Info(eventGridEvent.ToString(Formatting.Indented));
@@ -49,7 +49,7 @@ namespace FunctionEGDWDumper
                 var uri = new Uri(ehEvent.data.fileUrl);
 
                 // Get data from the file and migrate to data warehouse
-                Dump(uri);
+                await Dump(uri);
             }
             catch (Exception e)
             {
@@ -63,7 +63,7 @@ namespace FunctionEGDWDumper
         /// Dumps the data from the Avro blob to the data warehouse (DW). 
         /// Before running this, ensure that the DW has the required <see cref="TableName"/> table created.
         /// </summary>   
-        private static async void Dump(Uri fileUri)
+        private static async Task Dump(Uri fileUri)
         {
             // Get the blob reference
             BlobClient blob = new BlobClient(fileUri);
