@@ -20,6 +20,7 @@ using Microsoft.Azure.WebJobs.Host;
 using Azure.Storage.Blobs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Azure.Identity;
 
 namespace FunctionEGDWDumper
 {
@@ -48,6 +49,7 @@ namespace FunctionEGDWDumper
                 // Get the URL from the event that points to the Capture file
                 var uri = new Uri(ehEvent.data.fileUrl);
 
+                log.Info(ehEvent.data.fileUrl);
                 // Get data from the file and migrate to data warehouse
                 await Dump(uri);
             }
@@ -67,7 +69,7 @@ namespace FunctionEGDWDumper
         private static async Task Dump(Uri fileUri)
         {
             // Get the blob reference
-            BlobClient blob = new BlobClient(fileUri);
+            BlobClient blob = new BlobClient(fileUri, new DefaultAzureCredential());
 
             using (var dataTable = GetWindTurbineMetricsTable())
             {
